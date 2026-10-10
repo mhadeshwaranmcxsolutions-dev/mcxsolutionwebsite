@@ -3,15 +3,30 @@ import Logo from "./Logo";
 const columns = [
   {
     title: "Solutions",
-    links: ["MCX Order", "MCX HR", "MCX Stock", "MCX POS"],
+    links: [
+      { label: "MCX Order", href: "#solutions" },
+      { label: "MCX HR", href: "#solutions" },
+      { label: "MCX Stock", href: "#solutions" },
+      { label: "MCX POS", href: "#solutions" },
+    ],
   },
   {
     title: "Company",
-    links: ["About Us", "Services", "Portfolio", "Careers"],
+    links: [
+      { label: "About Us", href: "#about" },
+      { label: "Services", href: "#services" },
+      { label: "Testimonials", href: "#testimonials" },
+      { label: "Careers", href: "#contact" },
+    ],
   },
   {
     title: "Resources",
-    links: ["Blog", "Help Center", "Privacy Policy", "Terms of Service"],
+    links: [
+      { label: "Blog", href: "#" },
+      { label: "Help Center", href: "#" },
+      { label: "Privacy Policy", href: "#" },
+      { label: "Terms of Service", href: "#" },
+    ],
   },
 ];
 
@@ -48,12 +63,12 @@ export default function Footer() {
               </h4>
               <ul className="mt-5 space-y-3">
                 {col.links.map((l) => (
-                  <li key={l}>
+                  <li key={l.label}>
                     <a
-                      href="#"
+                      href={l.href}
                       className="text-sm text-slate-400 transition hover:text-brand-orange"
                     >
-                      {l}
+                      {l.label}
                     </a>
                   </li>
                 ))}
