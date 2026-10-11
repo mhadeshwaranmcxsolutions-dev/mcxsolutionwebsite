@@ -9,7 +9,6 @@ const links = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/#about" },
   { label: "Our Solutions", href: "/#solutions" },
-  { label: "Pricing", href: "/pricing" },
   { label: "Services", href: "/#services" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -22,16 +21,18 @@ export default function Navbar() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setScrolled(false);
+    setProgress(0);
     const onScroll = () => {
       setScrolled(window.scrollY > 12);
       const h = document.documentElement;
       const height = h.scrollHeight - h.clientHeight;
       setProgress(height > 0 ? (h.scrollTop / height) * 100 : 0);
     };
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     const ids = links
@@ -51,7 +52,15 @@ export default function Navbar() {
     );
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname === "/") {
+      setActive("#home");
+    } else {
+      setActive(pathname);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -84,13 +93,13 @@ export default function Navbar() {
           scrolled ? "h-16" : "h-20"
         }`}
       >
-        <a
-          href="#home"
+        <Link
+          href="/"
           aria-label="MCX Solutions home"
           className="transition-transform duration-300 hover:scale-105"
         >
           <Logo />
-        </a>
+        </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">
           {links.map((l) => {
