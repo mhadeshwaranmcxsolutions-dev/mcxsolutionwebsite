@@ -1,10 +1,47 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 export default function DashboardMockup() {
+  const lineRef = useRef<SVGPathElement>(null);
+  const [drawn, setDrawn] = useState(false);
+  const [kpi, setKpi] = useState({ orders: 1200, sales: 45000, customers: 300 });
+
+  // Animate chart line draw
+  useEffect(() => {
+    const path = lineRef.current;
+    if (!path) return;
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = `${length}`;
+    path.style.strokeDashoffset = `${length}`;
+    const t = setTimeout(() => {
+      path.style.transition = "stroke-dashoffset 2.2s ease-out";
+      path.style.strokeDashoffset = "0";
+      setDrawn(true);
+    }, 400);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Live-tick KPIs
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setKpi((p) => ({
+        orders: p.orders + Math.floor(Math.random() * 4),
+        sales: p.sales + Math.floor(Math.random() * 250),
+        customers: p.customers + (Math.random() > 0.7 ? 1 : 0),
+      }));
+    }, 1800);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fmt = (n: number) => n.toLocaleString("en-MY");
+
   return (
     <div className="rounded-2xl bg-white p-3 shadow-premium ring-1 ring-black/5">
       <div className="flex items-center gap-1.5 rounded-t-xl bg-slate-100 px-3 py-2">
-        <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-        <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400 transition-transform hover:scale-125" />
+        <span className="h-2.5 w-2.5 rounded-full bg-amber-400 transition-transform hover:scale-125" />
+        <span className="h-2.5 w-2.5 rounded-full bg-green-400 transition-transform hover:scale-125" />
         <span className="ml-3 text-xs font-medium text-slate-500">
           app.mcxsolutions.com/dashboard
         </span>
@@ -27,7 +64,7 @@ export default function DashboardMockup() {
           ].map((item) => (
             <div
               key={item.label}
-              className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs ${
+              className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs transition-colors ${
                 item.active
                   ? "bg-brand-orange text-white"
                   : "text-slate-400 hover:text-white"
@@ -47,21 +84,25 @@ export default function DashboardMockup() {
               <div className="text-sm font-bold text-brand-navy">Dashboard</div>
               <div className="text-[10px] text-slate-400">Welcome back 👋</div>
             </div>
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-slate-200 text-[10px] font-bold text-brand-navy">
+            <div className="relative flex h-7 w-7 items-center justify-center rounded-full bg-slate-200 text-[10px] font-bold text-brand-navy">
               AD
+              <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-green-500 ring-2 ring-white animate-pulse" />
             </div>
           </div>
 
           <div className="mb-3 grid grid-cols-3 gap-2">
-            <Kpi label="Total Orders" value="1,268" delta="+12%" color="orange" />
-            <Kpi label="Total Sales" value="RM 48,320" delta="+15%" color="green" />
-            <Kpi label="New Customers" value="320" delta="+10%" color="blue" />
+            <Kpi label="Total Orders" value={fmt(kpi.orders)} delta="+12%" color="orange" />
+            <Kpi label="Total Sales" value={`RM ${fmt(kpi.sales)}`} delta="+15%" color="green" />
+            <Kpi label="New Customers" value={fmt(kpi.customers)} delta="+10%" color="blue" />
           </div>
 
           <div className="mb-3 rounded-xl bg-white p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="text-[11px] font-semibold text-brand-navy">Sales Overview</span>
-              <span className="text-[9px] text-green-500">▲ 15%</span>
+              <span className="flex items-center gap-1 text-[9px] text-green-500">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                ▲ 15%
+              </span>
             </div>
             <svg viewBox="0 0 200 70" className="h-16 w-full" preserveAspectRatio="none">
               <defs>
@@ -73,8 +114,10 @@ export default function DashboardMockup() {
               <path
                 d="M0 55 L25 48 L50 52 L75 38 L100 42 L125 28 L150 22 L175 30 L200 12 L200 70 L0 70 Z"
                 fill="url(#areaGrad)"
+                style={{ opacity: drawn ? 1 : 0, transition: "opacity 0.6s ease 1.8s" }}
               />
               <path
+                ref={lineRef}
                 d="M0 55 L25 48 L50 52 L75 38 L100 42 L125 28 L150 22 L175 30 L200 12"
                 fill="none"
                 stroke="#FF7A00"
@@ -82,6 +125,10 @@ export default function DashboardMockup() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+              {/* moving dot */}
+              <circle r="3" fill="#FF7A00" style={{ opacity: drawn ? 1 : 0, transition: "opacity 0.4s ease 2s" }}>
+                <animateMotion dur="4s" repeatCount="indefinite" path="M0 55 L25 48 L50 52 L75 38 L100 42 L125 28 L150 22 L175 30 L200 12" />
+              </circle>
             </svg>
           </div>
 
@@ -93,8 +140,16 @@ export default function DashboardMockup() {
                 { id: "#1002", amt: "RM 320.00", status: "Processing", color: "blue" },
                 { id: "#1003", amt: "RM 210.00", status: "Completed", color: "green" },
                 { id: "#1004", amt: "RM 450.00", status: "Pending", color: "amber" },
-              ].map((o) => (
-                <div key={o.id} className="flex items-center justify-between text-[10px]">
+              ].map((o, i) => (
+                <div
+                  key={o.id}
+                  className="flex items-center justify-between text-[10px]"
+                  style={{
+                    opacity: drawn ? 1 : 0,
+                    transform: drawn ? "translateX(0)" : "translateX(-8px)",
+                    transition: `all 0.4s ease ${2.2 + i * 0.12}s`,
+                  }}
+                >
                   <span className="font-medium text-brand-navy">{o.id}</span>
                   <span className="text-slate-500">{o.amt}</span>
                   <span
@@ -135,9 +190,9 @@ function Kpi({
     blue: "bg-blue-50 text-blue-600",
   };
   return (
-    <div className="rounded-xl bg-white p-2.5">
+    <div className="rounded-xl bg-white p-2.5 transition-transform duration-200 hover:scale-[1.03]">
       <div className="text-[9px] text-slate-400">{label}</div>
-      <div className="mt-0.5 text-sm font-bold text-brand-navy">{value}</div>
+      <div className="mt-0.5 text-sm font-bold text-brand-navy transition-all duration-300">{value}</div>
       <span className={`inline-block rounded px-1 text-[9px] font-semibold ${map[color]}`}>
         {delta}
       </span>

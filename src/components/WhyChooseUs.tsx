@@ -1,3 +1,7 @@
+import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
+import AnimatedTextReveal from "./AnimatedTextReveal";
+
 const features = [
   {
     title: "Reliable Systems",
@@ -37,12 +41,12 @@ export default function WhyChooseUs() {
     <section id="about" className="py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div>
+          <Reveal variant="right">
             <span className="text-sm font-bold uppercase tracking-wider text-brand-orange">
               Why Choose MCX Solutions
             </span>
             <h2 className="mt-3 text-3xl font-extrabold text-brand-navy sm:text-4xl text-balance">
-              Your Trusted Technology Partner
+              <AnimatedTextReveal text="Your Trusted Technology Partner" />
             </h2>
             <p className="mt-5 max-w-lg text-slate-600 leading-relaxed">
               We combine technology, experience and a customer-focused approach
@@ -50,26 +54,26 @@ export default function WhyChooseUs() {
             </p>
             <a
               href="#contact"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-navy px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-navyDeep"
+              className="group btn-shine mt-8 inline-flex items-center gap-2 rounded-full bg-brand-navy px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-navyDeep hover:-translate-y-0.5"
             >
               Talk to an Expert
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+              <svg viewBox="0 0 24 24" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
             </a>
-          </div>
+          </Reveal>
 
           <div className="grid gap-5 sm:grid-cols-2">
             {features.map((f, i) => (
-              <div
-                key={f.title}
-                className="rounded-2xl border border-slate-100 bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-premium animate-fade-up"
-                style={{ animationDelay: `${i * 80}ms` }}
-              >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${colorMap[f.color]}`}>
-                  <FeatureIcon name={f.icon} />
-                </div>
-                <h3 className="mt-4 text-base font-bold text-brand-navy">{f.title}</h3>
-                <p className="mt-1.5 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
-              </div>
+              <Reveal key={f.title} delay={i * 100} variant="up">
+                <TiltCard max={5} scale={1.02} className="h-full">
+                  <div className="card-glow group h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-card transition-all duration-300 hover:shadow-premium">
+                    <div className={`icon-bounce flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:-rotate-6 ${colorMap[f.color]}`}>
+                      <FeatureIcon name={f.icon} />
+                    </div>
+                    <h3 className="mt-4 text-base font-bold text-brand-navy">{f.title}</h3>
+                    <p className="mt-1.5 text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+                  </div>
+                </TiltCard>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -1,21 +1,24 @@
 "use client";
 
+import Reveal from "./Reveal";
+import AnimatedTextReveal from "./AnimatedTextReveal";
+
 export default function Contact() {
   return (
     <section id="contact" className="py-24">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="overflow-hidden rounded-3xl gradient-navy relative">
           <div className="absolute inset-0 grid-pattern opacity-30" />
-          <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-brand-orange/25 blur-3xl" />
-          <div className="absolute -bottom-16 -right-10 h-72 w-72 rounded-full bg-brand-blue/25 blur-3xl" />
+          <div className="absolute -left-10 -top-10 h-64 w-64 rounded-full bg-brand-orange/25 blur-3xl animate-pulse-soft" />
+          <div className="absolute -bottom-16 -right-10 h-72 w-72 rounded-full bg-brand-blue/25 blur-3xl animate-pulse-soft" />
 
           <div className="relative grid gap-10 p-8 lg:grid-cols-2 lg:p-14">
-            <div>
+            <Reveal variant="right">
               <span className="text-sm font-bold uppercase tracking-wider text-brand-orangeLight">
                 Get in Touch
               </span>
               <h2 className="mt-3 text-3xl font-extrabold text-white sm:text-4xl text-balance">
-                Ready to grow your business?
+                <AnimatedTextReveal text="Ready to grow your business?" />
               </h2>
               <p className="mt-5 max-w-md text-slate-300 leading-relaxed">
                 Let's talk about how MCX Solutions can streamline your operations,
@@ -39,38 +42,40 @@ export default function Contact() {
                   value="+60 3-1234 5678"
                 />
               </div>
-            </div>
+            </Reveal>
 
-            <form
-              className="rounded-2xl bg-white/10 p-6 backdrop-blur-md ring-1 ring-white/15 sm:p-8"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Full Name" name="name" placeholder="John Doe" />
-                <Field label="Email" name="email" type="email" placeholder="john@company.com" />
-              </div>
-              <div className="mt-4">
-                <Field label="Company" name="company" placeholder="Your company" />
-              </div>
-              <div className="mt-4">
-                <label className="mb-1.5 block text-xs font-semibold text-white/90">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  rows={4}
-                  placeholder="Tell us about your needs..."
-                  className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/40"
-                />
-              </div>
-              <button
-                type="submit"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-3.5 text-sm font-semibold text-white shadow-card transition hover:bg-brand-orangeDark hover:shadow-glow"
+            <Reveal variant="left" delay={120}>
+              <form
+                className="group rounded-2xl bg-white/10 p-6 backdrop-blur-md ring-1 ring-white/15 transition-all duration-300 hover:ring-brand-orange/40 sm:p-8"
+                onSubmit={(e) => e.preventDefault()}
               >
-                Send Message
-                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4Z" /></svg>
-              </button>
-            </form>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Full Name" name="name" placeholder="John Doe" />
+                  <Field label="Email" name="email" type="email" placeholder="john@company.com" />
+                </div>
+                <div className="mt-4">
+                  <Field label="Company" name="company" placeholder="Your company" />
+                </div>
+                <div className="mt-4">
+                  <label className="mb-1.5 block text-xs font-semibold text-white/90">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    rows={4}
+                    placeholder="Tell us about your needs..."
+                    className="w-full resize-none rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder-white/40 outline-none transition focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/40"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn-shine mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-orange px-6 py-3.5 text-sm font-semibold text-white shadow-card transition-all duration-300 hover:bg-brand-orangeDark hover:shadow-glow hover:-translate-y-0.5 active:translate-y-0"
+                >
+                  Send Message
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4Z" /></svg>
+                </button>
+              </form>
+            </Reveal>
           </div>
         </div>
       </div>

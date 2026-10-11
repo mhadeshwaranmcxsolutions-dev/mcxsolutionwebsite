@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCX HR — User Tutorial & Guide</title>
+<style>
+  :root{
+    --navy:#0B1F3A; --orange:#FF7A00; --orange-dark:#E56A00;
+    --blue:#0A66C2; --slate-50:#f8fafc; --slate-100:#f1f5f9; --slate-200:#e2e8f0;
+    --slate-600:#475569; --slate-800:#1e293b; --slate-900:#0f172a;
+    --amber:#f59e0b; --red:#ef4444; --emerald:#10b981; --purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--slate-100);color:var(--slate-800);line-height:1.6}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 100%);color:#fff;padding:60px 24px;text-align:center}
+  .hero h1{font-size:2.5rem;margin-bottom:12px}
+  .hero p{font-size:1.1rem;opacity:.9;max-width:720px;margin:0 auto}
+  .hero .badge{display:inline-block;background:var(--orange);color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:600;margin-top:16px}
+  .container{max-width:1000px;margin:0 auto;padding:32px 20px 60px}
+  .toc{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:32px}
+  .toc h2{font-size:1.3rem;margin-bottom:16px;color:var(--navy)}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+  .toc a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--slate-600);text-decoration:none;font-size:.92rem;transition:all .15s}
+  .toc a:hover{background:var(--orange);color:#fff}
+  .toc .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--slate-100);color:var(--navy);font-weight:700;font-size:.78rem;flex-shrink:0}
+  .toc a:hover .num{background:rgba(255,255,255,.25);color:#fff}
+  section{background:#fff;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  section h2{font-size:1.5rem;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  section h2 .sec-num{background:var(--orange);color:#fff;width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+  section h3{font-size:1.1rem;color:var(--slate-900);margin:24px 0 10px}
+  section h4{font-size:1rem;color:var(--slate-800);margin:16px 0 8px}
+  section p{color:var(--slate-600);margin-bottom:12px}
+  ul,ol{margin:8px 0 12px 24px;color:var(--slate-600)}
+  li{margin-bottom:6px}
+  .callout{padding:14px 18px;border-radius:10px;margin:16px 0;font-size:.92rem;border-left:4px solid}
+  .callout.tip{background:#ecfdf5;border-color:var(--emerald);color:#065f46}
+  .callout.warn{background:#fffbeb;border-color:var(--amber);color:#92400e}
+  .callout.info{background:#eff6ff;border-color:var(--blue);color:#1e40af}
+  .callout strong{display:block;margin-bottom:2px}
+  .step{display:flex;gap:14px;margin:12px 0;padding:14px;background:var(--slate-50);border-radius:10px}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .step-body p{margin-bottom:4px}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+  .flow-node{background:var(--navy);color:#fff;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:500}
+  .flow-arrow{color:var(--orange);font-weight:700}
+  code{background:var(--slate-100);padding:2px 7px;border-radius:5px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.85rem;color:var(--slate-800)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--slate-200)}
+  th{background:var(--slate-50);color:var(--slate-800);font-weight:600}
+  td{color:var(--slate-600)}
+  .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+  .tag-green{background:#d1fae5;color:#065f46}
+  .tag-amber{background:#fef3c7;color:#92400e}
+  .tag-red{background:#fee2e2;color:#991b1b}
+  .tag-blue{background:#dbeafe;color:#1e40af}
+  .tag-purple{background:#ede9fe;color:#5b21b6}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:14px 0}
+  .feat-card{background:var(--slate-50);border-radius:10px;padding:14px;border:1px solid var(--slate-200)}
+  .feat-card .ico{font-size:1.4rem;margin-bottom:6px}
+  .feat-card .t{font-weight:600;font-size:.9rem;color:var(--slate-900)}
+  .feat-card .d{font-size:.8rem;color:var(--slate-600);margin-top:2px}
+  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}
+  .role-card{padding:12px;border-radius:10px;text-align:center}
+  .role-card .role-name{font-weight:700;font-size:.9rem}
+  .role-card .role-desc{font-size:.75rem;margin-top:2px;opacity:.85}
+  .role-admin{background:#ffe4e6;color:#9f1239}
+  .role-hr{background:#ffedd5;color:#9a3412}
+  .role-manager{background:#dbeafe;color:#1e40af}
+  .role-employee{background:#d1fae5;color:#065f46}
+  .footer{text-align:center;padding:40px 20px;color:var(--slate-600);font-size:.85rem}
+  @media(max-width:640px){.hero h1{font-size:1.8rem}section{padding:20px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>👥 MCX HR — Complete User Guide</h1>
+  <p>A step-by-step tutorial on how to use the MCX HR system to manage employees, attendance, leave, payroll, recruitment, onboarding, performance, training, and more.</p>
+  <span class="badge">Human Resource Management System</span>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#s1"><span class="num">1</span> Getting Started & Login</a>
+    <a href="#s2"><span class="num">2</span> User Roles & Permissions</a>
+    <a href="#s3"><span class="num">3</span> Dashboard Overview</a>
+    <a href="#s4"><span class="num">4</span> Initial Setup (Departments, Positions)</a>
+    <a href="#s5"><span class="num">5</span> Employee Management</a>
+    <a href="#s6"><span class="num">6</span> Attendance & Shifts</a>
+    <a href="#s7"><span class="num">7</span> Leave Management</a>
+    <a href="#s8"><span class="num">8</span> Payroll & Compensation</a>
+    <a href="#s9"><span class="num">9</span> Recruitment</a>
+    <a href="#s10"><span class="num">10</span> Onboarding</a>
+    <a href="#s11"><span class="num">11</span> Performance Reviews</a>
+    <a href="#s12"><span class="num">12</span> Training & Development</a>
+    <a href="#s13"><span class="num">13</span> Expense Claims</a>
+    <a href="#s14"><span class="num">14</span> Asset Management</a>
+    <a href="#s15"><span class="num">15</span> Holidays & Org Chart</a>
+    <a href="#s16"><span class="num">16</span> Reports & System</a>
+    <a href="#s17"><span class="num">17</span> Tips & Best Practices</a>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section id="s1">
+  <h2><span class="sec-num">1</span> Getting Started & Login</h2>
+  <p>MCX HR is a web-based human resource management system. Open it in your browser and log in with your credentials.</p>
+
+  <h3>🔑 Demo Credentials</h3>
+  <table>
+    <tr><th>Role</th><th>Email</th><th>Password</th><th>Access Level</th></tr>
+    <tr><td>Admin</td><td><code>admin@mcxhr.com</code></td><td><code>admin123</code></td><td>Full access to all modules</td></tr>
+    <tr><td>Employee</td><td><code>employee@mcxhr.com</code></td><td><code>employee123</code></td><td>Self-service access</td></tr>
+  </table>
+
+  <div class="callout info"><strong>Role-based Access</strong>Different roles see different menus and actions. Admins and HR have full control; Managers can approve leave and review performance; Employees can apply for leave, submit expenses, and view their own records.</div>
+</section>
+
+<!-- SECTION 2 -->
+<section id="s2">
+  <h2><span class="sec-num">2</span> User Roles & Permissions</h2>
+  <p>The system has 4 roles, each with different capabilities:</p>
+  <div class="role-grid">
+    <div class="role-card role-admin"><div class="role-name">🛡️ Admin</div><div class="role-desc">Full system access, settings, user management</div></div>
+    <div class="role-card role-hr"><div class="role-name">🧑‍💼 HR</div><div class="role-desc">Manage employees, payroll, recruitment</div></div>
+    <div class="role-card role-manager"><div class="role-name">👔 Manager</div><div class="role-desc">Approve leave, review performance, view team</div></div>
+    <div class="role-card role-employee"><div class="role-name">🙋 Employee</div><div class="role-desc">Apply leave, submit expenses, self-service</div></div>
+  </div>
+  <p>Permissions can be fine-tuned per user in <strong>Settings → Users</strong>, where you can grant or restrict access to specific pages.</p>
+</section>
+
+<!-- SECTION 3 -->
+<section id="s3">
+  <h2><span class="sec-num">3</span> Dashboard Overview</h2>
+  <p>The dashboard gives a real-time snapshot of your workforce. It is the first page after login.</p>
+
+  <h3>📊 KPI Cards</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">👥</div><div class="t">Total Employees</div><div class="d">Active headcount</div></div>
+    <div class="feat-card"><div class="ico">✅</div><div class="t">Present Today</div><div class="d">Employees checked in</div></div>
+    <div class="feat-card"><div class="ico">🌴</div><div class="t">On Leave Today</div><div class="d">Approved leave today</div></div>
+    <div class="feat-card"><div class="ico">⏰</div><div class="t">Late Arrivals</div><div class="d">Employees late today</div></div>
+    <div class="feat-card"><div class="ico">📋</div><div class="t">Pending Leave</div><div class="d">Leave requests awaiting approval</div></div>
+    <div class="feat-card"><div class="ico">💰</div><div class="t">Payroll This Month</div><div class="d">Total payroll cost</div></div>
+    <div class="feat-card"><div class="ico">📣</div><div class="t">Announcements</div><div class="d">Latest company announcements</div></div>
+  </div>
+
+  <h3>📈 Charts</h3>
+  <ul>
+    <li><strong>Headcount by Department</strong> — pie chart of employee distribution</li>
+    <li><strong>Attendance Trend</strong> — bar chart of present/absent/late over the week</li>
+    <li><strong>Leave Status</strong> — breakdown of approved/pending/rejected leave</li>
+  </ul>
+</section>
+
+<!-- SECTION 4 -->
+<section id="s4">
+  <h2><span class="sec-num">4</span> Initial Setup (Departments & Positions)</h2>
+  <p>Before adding employees, set up your company structure.</p>
+
+  <div class="flow">
+    <span class="flow-node">Departments</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Positions</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Employees</span>
+  </div>
+
+  <h3>🏢 Departments</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Settings → Departments</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Click <strong>+ Add Department</strong> and enter the department name (e.g., "Sales", "Engineering", "Finance").</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Click <strong>Save</strong>.</p></div></div>
+
+  <h3>💼 Positions</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Settings → Positions</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Click <strong>+ Add Position</strong>, enter the job title, and select which department it belongs to.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Click <strong>Save</strong>.</p></div></div>
+
+  <div class="callout tip"><strong>Example</strong>Create department "Engineering", then positions "Software Engineer", "Senior Engineer", "Engineering Manager" under it.</div>
+</section>
+
+<!-- SECTION 5 -->
+<section id="s5">
+  <h2><span class="sec-num">5</span> Employee Management</h2>
+  <p>Go to <strong>Employees</strong> in the sidebar. This is your central employee directory.</p>
+
+  <h3>➕ Adding an Employee</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Add Employee</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Fill in the details:</p>
+    <ul>
+      <li><strong>First Name & Last Name</strong> — employee's full name</li>
+      <li><strong>Email</strong> — work email (used for login)</li>
+      <li><strong>Phone</strong> — contact number</li>
+      <li><strong>Department</strong> — select from the list</li>
+      <li><strong>Position</strong> — select job title</li>
+      <li><strong>Role</strong> — admin / hr / manager / employee</li>
+      <li><strong>Status</strong> — active / inactive / on_leave</li>
+      <li><strong>Hire Date</strong> — date of joining</li>
+      <li><strong>Salary</strong> — monthly basic salary (in RM)</li>
+    </ul>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Click <strong>Save</strong>. The employee now appears in the directory.</p></div></div>
+
+  <h3>🔍 Managing Employees</h3>
+  <ul>
+    <li><strong>Search & Filter</strong> — find employees by name, department, or status</li>
+    <li><strong>Edit</strong> — update employee details, role, salary, or status</li>
+    <li><strong>Status</strong> — mark as inactive when an employee leaves</li>
+  </ul>
+
+  <div class="callout warn"><strong>Set the Role Correctly</strong>The employee's role determines what they can see and do. Only assign "admin" to trusted personnel, as they can change system settings and delete records.</div>
+</section>
+
+<!-- SECTION 6 -->
+<section id="s6">
+  <h2><span class="sec-num">6</span> Attendance & Shifts</h2>
+
+  <h3>⏰ Attendance</h3>
+  <p>Go to <strong>Attendance</strong>. This tracks daily check-in and check-out for every employee.</p>
+  <ul>
+    <li><strong>Clock In / Clock Out</strong> — employees mark their attendance daily</li>
+    <li><strong>Status</strong> — <span class="tag tag-green">Present</span>, <span class="tag tag-red">Absent</span>, <span class="tag tag-amber">Late</span>, or <span class="tag tag-blue">On Leave</span></li>
+    <li><strong>View by Date</strong> — filter attendance for any specific day</li>
+    <li><strong>Monthly Summary</strong> — see total present, absent, and late days per employee</li>
+  </ul>
+
+  <h3>🕐 Shifts</h3>
+  <p>Go to <strong>Shifts</strong>. Define work schedules for your team.</p>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Add Shift</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Enter shift name (e.g., "Morning Shift"), start time, end time, and working days.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Assign the shift to an employee. Click <strong>Save</strong>.</p></div></div>
+
+  <div class="callout info"><strong>Late Detection</strong>The system compares clock-in time against the assigned shift's start time to automatically mark employees as <span class="tag tag-amber">Late</span>.</div>
+</section>
+
+<!-- SECTION 7 -->
+<section id="s7">
+  <h2><span class="sec-num">7</span> Leave Management</h2>
+
+  <h3>🌴 Applying for Leave (Employee)</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Leave</strong>. Click <strong>+ Apply Leave</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select <strong>Leave Type</strong>: <span class="tag tag-blue">Annual</span>, <span class="tag tag-red">Sick</span>, <span class="tag tag-purple">Personal</span>, or <span class="tag">Unpaid</span>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Choose <strong>Start Date</strong> and <strong>End Date</strong>. The system auto-calculates the number of days.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Enter a <strong>Reason</strong>. Click <strong>Submit</strong>. Status becomes <span class="tag tag-amber">Pending</span>.</p></div></div>
+
+  <h3>✅ Approving Leave (Manager / HR)</h3>
+  <ul>
+    <li>Go to <strong>Leave</strong> and view the <strong>Pending Requests</strong>.</li>
+    <li>Review the request, check the employee's leave balance.</li>
+    <li>Click <strong>Approve</strong> or <strong>Reject</strong>.</li>
+    <li>Approved leave automatically updates the employee's leave balance.</li>
+  </ul>
+
+  <h3>📊 Leave Balance</h3>
+  <p>Each employee has an annual leave balance. The system tracks:</p>
+  <ul>
+    <li><strong>Annual</strong> — total days vs. days used</li>
+    <li><strong>Sick</strong> — total days vs. days used</li>
+    <li><strong>Personal</strong> — total days vs. days used</li>
+  </ul>
+
+  <div class="callout warn"><strong>Don't Approve Without Checking Balance</strong>Always check the employee's remaining leave balance before approving, especially for annual and personal leave.</div>
+</section>
+
+<!-- SECTION 8 -->
+<section id="s8">
+  <h2><span class="sec-num">8</span> Payroll & Compensation</h2>
+  <p>Go to <strong>Payroll</strong>. This module handles monthly salary calculations and payments.</p>
+
+  <h3>💰 Payroll Components</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">💵</div><div class="t">Basic Salary</div><div class="d">From employee record</div></div>
+    <div class="feat-card"><div class="ico">⏱️</div><div class="t">Overtime</div><div class="d">Additional OT pay</div></div>
+    <div class="feat-card"><div class="ico">🎁</div><div class="t">Bonus / Allowance</div><div class="d">Extras added this month</div></div>
+    <div class="feat-card"><div class="ico">➖</div><div class="t">Deductions</div><div class="d">EPF, SOCSO, PCB, unpaid leave</div></div>
+    <div class="feat-card"><div class="ico">💯</div><div class="t">Net Salary</div><div class="d">Basic + OT + Bonus − Deductions</div></div>
+  </div>
+
+  <h3>📝 Processing Payroll for a Month</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Payroll</strong>. Select the <strong>Month</strong> and <strong>Year</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Click <strong>+ Generate Payroll</strong> to create payroll records for all active employees.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>For each employee, adjust <strong>Overtime</strong> and add any <strong>Bonus/Allowance</strong> or <strong>Deductions</strong>.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>The <strong>Net Salary</strong> recalculates automatically.</p></div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body"><p>Click <strong>Mark as Paid</strong> once salaries are disbursed. Status changes from <span class="tag tag-amber">Pending</span> to <span class="tag tag-green">Paid</span>.</p></div></div>
+
+  <div class="callout info"><strong>Statutory Deductions</strong>The system supports EPF, SOCSO, and PCB deductions. Add them as deduction line items in the employee's payroll record.</div>
+</section>
+
+<!-- SECTION 9 -->
+<section id="s9">
+  <h2><span class="sec-num">9</span> Recruitment</h2>
+  <p>Go to <strong>Recruitment</strong>. Manage job postings and track applicants through the hiring pipeline.</p>
+
+  <div class="flow">
+    <span class="flow-node">Job Posting</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Applicants</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Screening</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Interview</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Offer</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Hired</span>
+  </div>
+
+  <h3>📢 Creating a Job Posting</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to the <strong>Job Postings</strong> tab. Click <strong>+ New Job</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Enter job <strong>Title</strong>, <strong>Department</strong>, <strong>Description</strong>, and <strong>Requirements</strong>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Choose <strong>Employment Type</strong>: full-time, part-time, contract, or internship.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Set <strong>Posted Date</strong> and <strong>Closing Date</strong>. Set status to <span class="tag tag-blue">Open</span>.</p></div></div>
+
+  <h3>👤 Tracking Applicants</h3>
+  <ul>
+    <li>Go to the <strong>Applicants</strong> tab to see all candidates.</li>
+    <li>Each applicant has a <strong>Status</strong>: <span class="tag tag-blue">Applied</span> → <span class="tag">Screening</span> → <span class="tag">Interview</span> → <span class="tag">Offer</span> → <span class="tag tag-green">Hired</span> or <span class="tag tag-red">Rejected</span>.</li>
+    <li>Rate applicants with a star rating and add notes.</li>
+    <li>Move applicants through the pipeline by updating their status.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Convert to Employee</strong>When an applicant is marked as <span class="tag tag-green">Hired</span>, use their details to create a new employee record in the Employees module.</div>
+</section>
+
+<!-- SECTION 10 -->
+<section id="s10">
+  <h2><span class="sec-num">10</span> Onboarding</h2>
+  <p>Go to <strong>Onboarding</strong>. This module ensures new hires complete all required setup tasks.</p>
+
+  <h3>📋 Onboarding Tasks</h3>
+  <p>Each new employee gets a checklist of onboarding tasks. For example:</p>
+  <ul>
+    <li>Sign employment contract</li>
+    <li>Set up company email & accounts</li>
+    <li>Receive laptop & access card (from Assets)</li>
+    <li>Complete company policy briefing</li>
+    <li>Introduction to team</li>
+  </ul>
+
+  <h3>➕ Creating Onboarding Tasks</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Add Task</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select the <strong>Employee</strong>, enter <strong>Task Title</strong> and optional <strong>Description</strong>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Set a <strong>Due Date</strong> and assign an owner.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Track status: <span class="tag tag-amber">Pending</span> → <span class="tag tag-blue">In Progress</span> → <span class="tag tag-green">Completed</span>.</p></div></div>
+
+  <div class="callout info"><strong>Onboarding Completion Rate</strong>Use the onboarding dashboard to see how many tasks each new hire has completed and follow up on overdue items.</div>
+</section>
+
+<!-- SECTION 11 -->
+<section id="s11">
+  <h2><span class="sec-num">11</span> Performance Reviews</h2>
+  <p>Go to <strong>Performance</strong>. Conduct periodic performance evaluations for employees.</p>
+
+  <h3>📝 Review Components</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">📅</div><div class="t">Review Period</div><div class="d">e.g., Q1 2026, Annual 2026</div></div>
+    <div class="feat-card"><div class="ico">⭐</div><div class="t">Rating</div><div class="d">Numeric performance score</div></div>
+    <div class="feat-card"><div class="ico">🖊️</div><div class="t">Self Review</div><div class="d">Employee's self-assessment</div></div>
+    <div class="feat-card"><div class="ico">👔</div><div class="t">Manager Review</div><div class="d">Manager's written feedback</div></div>
+    <div class="feat-card"><div class="ico">🎯</div><div class="t">Goals</div><div class="d">Objectives for the next period</div></div>
+  </div>
+
+  <h3>🔄 Review Workflow</h3>
+  <div class="flow">
+    <span class="flow-node">Pending</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Self-Review Submitted</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Manager Review</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Completed</span>
+  </div>
+
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p><strong>HR/Manager</strong> creates a performance review for an employee and sets the review period.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p><strong>Employee</strong> completes the self-review and submits it.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p><strong>Manager</strong> adds their review, sets a rating, and defines goals.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Mark the review as <span class="tag tag-green">Completed</span>.</p></div></div>
+</section>
+
+<!-- SECTION 12 -->
+<section id="s12">
+  <h2><span class="sec-num">12</span> Training & Development</h2>
+  <p>Go to <strong>Training</strong>. Assign and track employee training courses.</p>
+
+  <h3>🎓 Training Courses</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Assign Training</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Enter <strong>Course Title</strong>, <strong>Description</strong>, <strong>Provider</strong>, and <strong>Duration (hours)</strong>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Select the <strong>Employee</strong> to assign it to.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Track status: <span class="tag">Not Started</span> → <span class="tag tag-blue">In Progress</span> → <span class="tag tag-green">Completed</span>.</p></div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body"><p>Upon completion, record the <strong>Completion Date</strong> and upload a <strong>Certificate</strong>.</p></div></div>
+</section>
+
+<!-- SECTION 13 -->
+<section id="s13">
+  <h2><span class="sec-num">13</span> Expense Claims</h2>
+  <p>Go to <strong>Expenses</strong>. Employees submit claims; managers/HR approve and pay them.</p>
+
+  <h3>💸 Submitting an Expense Claim (Employee)</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ New Claim</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select <strong>Category</strong>: travel, meals, office, equipment, or other.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Enter <strong>Amount</strong> (in RM) and a <strong>Description</strong>.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Upload a <strong>Receipt</strong> (image/file). Click <strong>Submit</strong>.</p></div></div>
+
+  <h3>✅ Approving & Paying (Manager / HR)</h3>
+  <ul>
+    <li>Review pending claims and verify receipts.</li>
+    <li>Click <strong>Approve</strong> or <strong>Reject</strong>.</li>
+    <li>Once approved and reimbursed, mark as <span class="tag tag-green">Paid</span>.</li>
+  </ul>
+
+  <p>Claim statuses: <span class="tag tag-amber">Pending</span> → <span class="tag tag-green">Approved</span> → <span class="tag tag-blue">Paid</span> (or <span class="tag tag-red">Rejected</span>).</p>
+</section>
+
+<!-- SECTION 14 -->
+<section id="s14">
+  <h2><span class="sec-num">14</span> Asset Management</h2>
+  <p>Go to <strong>Assets</strong>. Track company-issued equipment (laptops, phones, access cards, etc.).</p>
+
+  <h3>💻 Asset Types</h3>
+  <ul>
+    <li>Laptop, Phone, Tablet, Key, Access Card, Other</li>
+  </ul>
+
+  <h3>➕ Adding & Assigning Assets</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Add Asset</strong>. Enter <strong>Name</strong>, <strong>Type</strong>, and <strong>Serial Number</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Set the <strong>Purchase Date</strong> and any <strong>Notes</strong>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Assign to an employee. Status updates to <span class="tag tag-blue">Assigned</span>.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Use statuses: <span class="tag tag-green">Available</span>, <span class="tag tag-blue">Assigned</span>, <span class="tag tag-amber">Maintenance</span>, or <span class="tag tag-red">Retired</span>.</p></div></div>
+
+  <div class="callout tip"><strong>Link with Onboarding</strong>When onboarding a new employee, assign them a laptop and access card through the Assets module so the company always knows who holds what equipment.</div>
+</section>
+
+<!-- SECTION 15 -->
+<section id="s15">
+  <h2><span class="sec-num">15</span> Holidays & Org Chart</h2>
+
+  <h3>🎉 Public Holidays</h3>
+  <p>Go to <strong>Holidays</strong>. Maintain your company's holiday calendar.</p>
+  <ul>
+    <li>Click <strong>+ Add Holiday</strong>, enter the <strong>Name</strong> and <strong>Date</strong>.</li>
+    <li>The system uses holidays to calculate attendance and leave accurately.</li>
+  </ul>
+
+  <h3>🏛️ Organization Chart</h3>
+  <p>Go to <strong>Org Chart</strong>. View the company hierarchy by department and position.</p>
+  <ul>
+    <li>See how many employees are in each department.</li>
+    <li>Identify reporting structure and team sizes.</li>
+    <li>Useful for onboarding new hires to understand the company structure.</li>
+  </ul>
+</section>
+
+<!-- SECTION 16 -->
+<section id="s16">
+  <h2><span class="sec-num">16</span> Reports & System</h2>
+
+  <h3>📊 Reports</h3>
+  <p>Go to <strong>Reports</strong>. Generate HR analytics reports:</p>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">👥</div><div class="t">Headcount Report</div><div class="d">Employees by department & status</div></div>
+    <div class="feat-card"><div class="ico">⏰</div><div class="t">Attendance Report</div><div class="d">Present, absent, late summary</div></div>
+    <div class="feat-card"><div class="ico">🌴</div><div class="t">Leave Report</div><div class="d">Leave taken vs. balance by employee</div></div>
+    <div class="feat-card"><div class="ico">💰</div><div class="t">Payroll Report</div><div class="d">Monthly salary cost breakdown</div></div>
+    <div class="feat-card"><div class="ico">⭐</div><div class="t">Performance Report</div><div class="d">Average ratings by department</div></div>
+    <div class="feat-card"><div class="ico">💸</div><div class="t">Expense Report</div><div class="d">Total claims by category & employee</div></div>
+  </div>
+
+  <h3>📋 Audit Log</h3>
+  <p>Go to <strong>Audit Log</strong>. Every action (create, update, delete) is recorded with the user, timestamp, and details — for compliance and traceability.</p>
+
+  <h3>⚙️ Settings</h3>
+  <ul>
+    <li><strong>Company</strong> — company name, logo, contact details</li>
+    <li><strong>Departments</strong> — manage departments</li>
+    <li><strong>Positions</strong> — manage job positions</li>
+    <li><strong>Users</strong> — manage system users and fine-tune permissions</li>
+  </ul>
+</section>
+
+<!-- SECTION 17 -->
+<section id="s17">
+  <h2><span class="sec-num">17</span> Tips & Best Practices</h2>
+
+  <div class="callout tip"><strong>1. Set Up Departments & Positions First</strong>Always create departments and positions before adding employees — this makes assignment fast and consistent.</div>
+
+  <div class="callout tip"><strong>2. Assign Roles Carefully</strong>Grant "admin" only to trusted staff. Use "HR" for the HR team and "manager" for team leads so they can approve leave and review their team.</div>
+
+  <div class="callout tip"><strong>3. Use Shifts for Accurate Attendance</strong>Assign shifts to every employee so the system can automatically detect late arrivals.</div>
+
+  <div class="callout tip"><strong>4. Approve Leave Promptly</strong>Review pending leave requests daily so employees know their plans are confirmed and payroll deductions are accurate.</div>
+
+  <div class="callout tip"><strong>5. Process Payroll on Time</strong>Generate payroll at the start of each month, review, and mark as paid on payday. Keep statutory deductions (EPF, SOCSO, PCB) up to date.</div>
+
+  <div class="callout tip"><strong>6. Link Recruitment → Onboarding → Assets</strong>When you hire someone, immediately create their employee record, set up onboarding tasks, and assign assets — this creates a seamless new-hire experience.</div>
+
+  <div class="callout tip"><strong>7. Conduct Quarterly Performance Reviews</strong>Regular reviews keep employees engaged and give you a documented record for promotions or salary adjustments.</div>
+
+  <h3>🚀 Common HR Workflow (Month-End)</h3>
+  <ol>
+    <li>Review and approve all pending <strong>Leave</strong> requests.</li>
+    <li>Verify <strong>Attendance</strong> records for the month.</li>
+    <li>Process <strong>Payroll</strong> — add overtime, bonuses, deductions.</li>
+    <li>Review and pay <strong>Expense Claims</strong>.</li>
+    <li>Check <strong>Performance</strong> reviews due this month.</li>
+    <li>Run <strong>Reports</strong> for management review.</li>
+  </ol>
+</section>
+
+<div class="footer">
+  <p>MCX HR — Human Resource Management System | User Tutorial v1.0</p>
+  <p>For support, contact your system administrator.</p>
+</div>
+
+</div>
+</body>
+</html>

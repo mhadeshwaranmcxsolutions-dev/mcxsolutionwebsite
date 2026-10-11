@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCX Stock — User Tutorial & Guide</title>
+<style>
+  :root{
+    --navy:#0a2540; --emerald:#10b981; --emerald-dark:#059669;
+    --slate-50:#f8fafc; --slate-100:#f1f5f9; --slate-200:#e2e8f0;
+    --slate-600:#475569; --slate-800:#1e293b; --slate-900:#0f172a;
+    --amber:#f59e0b; --red:#ef4444; --blue:#3b82f6; --purple:#8b5cf6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--slate-100);color:var(--slate-800);line-height:1.6}
+  .hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 100%);color:#fff;padding:60px 24px;text-align:center}
+  .hero h1{font-size:2.5rem;margin-bottom:12px}
+  .hero p{font-size:1.1rem;opacity:.9;max-width:720px;margin:0 auto}
+  .hero .badge{display:inline-block;background:var(--emerald);color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:600;margin-top:16px}
+  .container{max-width:1000px;margin:0 auto;padding:32px 20px 60px}
+  .toc{background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.06);margin-bottom:32px}
+  .toc h2{font-size:1.3rem;margin-bottom:16px;color:var(--navy)}
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
+  .toc a{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;color:var(--slate-600);text-decoration:none;font-size:.92rem;transition:all .15s}
+  .toc a:hover{background:var(--emerald);color:#fff}
+  .toc .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:6px;background:var(--slate-100);color:var(--navy);font-weight:700;font-size:.78rem;flex-shrink:0}
+  .toc a:hover .num{background:rgba(255,255,255,.25);color:#fff}
+  section{background:#fff;border-radius:16px;padding:32px;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  section h2{font-size:1.5rem;color:var(--navy);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  section h2 .sec-num{background:var(--emerald);color:#fff;width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+  section h3{font-size:1.1rem;color:var(--slate-900);margin:24px 0 10px}
+  section h4{font-size:1rem;color:var(--slate-800);margin:16px 0 8px}
+  section p{color:var(--slate-600);margin-bottom:12px}
+  ul,ol{margin:8px 0 12px 24px;color:var(--slate-600)}
+  li{margin-bottom:6px}
+  .callout{padding:14px 18px;border-radius:10px;margin:16px 0;font-size:.92rem;border-left:4px solid}
+  .callout.tip{background:#ecfdf5;border-color:var(--emerald);color:#065f46}
+  .callout.warn{background:#fffbeb;border-color:var(--amber);color:#92400e}
+  .callout.info{background:#eff6ff;border-color:var(--blue);color:#1e40af}
+  .callout strong{display:block;margin-bottom:2px}
+  .step{display:flex;gap:14px;margin:12px 0;padding:14px;background:var(--slate-50);border-radius:10px}
+  .step-num{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--emerald);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.85rem}
+  .step-body p{margin-bottom:4px}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0}
+  .flow-node{background:var(--navy);color:#fff;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:500}
+  .flow-arrow{color:var(--emerald);font-weight:700}
+  code{background:var(--slate-100);padding:2px 7px;border-radius:5px;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.85rem;color:var(--slate-800)}
+  .kbd{background:#fff;border:1px solid var(--slate-200);border-bottom-width:2px;padding:1px 7px;border-radius:5px;font-size:.8rem;font-family:monospace}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.9rem}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--slate-200)}
+  th{background:var(--slate-50);color:var(--slate-800);font-weight:600}
+  td{color:var(--slate-600)}
+  .tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600}
+  .tag-green{background:#d1fae5;color:#065f46}
+  .tag-amber{background:#fef3c7;color:#92400e}
+  .tag-red{background:#fee2e2;color:#991b1b}
+  .tag-blue{background:#dbeafe;color:#1e40af}
+  .features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:14px 0}
+  .feat-card{background:var(--slate-50);border-radius:10px;padding:14px;border:1px solid var(--slate-200)}
+  .feat-card .ico{font-size:1.4rem;margin-bottom:6px}
+  .feat-card .t{font-weight:600;font-size:.9rem;color:var(--slate-900)}
+  .feat-card .d{font-size:.8rem;color:var(--slate-600);margin-top:2px}
+  .footer{text-align:center;padding:40px 20px;color:var(--slate-600);font-size:.85rem}
+  @media(max-width:640px){.hero h1{font-size:1.8rem}section{padding:20px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>📦 MCX Stock — Complete User Guide</h1>
+  <p>A step-by-step tutorial on how to use the MCX Stock inventory, purchasing, sales, and finance modules to run your warehouse operations efficiently.</p>
+  <span class="badge">Next Generation Inventory Management System</span>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <div class="toc-grid">
+    <a href="#s1"><span class="num">1</span> Getting Started & Login</a>
+    <a href="#s2"><span class="num">2</span> Dashboard Overview</a>
+    <a href="#s3"><span class="num">3</span> Initial System Setup</a>
+    <a href="#s4"><span class="num">4</span> Products & Categories</a>
+    <a href="#s5"><span class="num">5</span> Purchase Workflow</a>
+    <a href="#s6"><span class="num">6</span> Sales Workflow</a>
+    <a href="#s7"><span class="num">7</span> Stock Management</a>
+    <a href="#s8"><span class="num">8</span> Batches, Expiry & FIFO</a>
+    <a href="#s9"><span class="num">9</span> Finance (AR/AP & SST)</a>
+    <a href="#s10"><span class="num">10</span> Reports & Analytics</a>
+    <a href="#s11"><span class="num">11</span> System Tools</a>
+    <a href="#s12"><span class="num">12</span> Tips & Best Practices</a>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section id="s1">
+  <h2><span class="sec-num">1</span> Getting Started & Login</h2>
+  <p>MCX Stock is a web-based inventory management system. Open the application in your browser and log in with your credentials.</p>
+
+  <h3>🔑 Demo Credentials</h3>
+  <table>
+    <tr><th>Role</th><th>Email</th><th>Password</th><th>Access Level</th></tr>
+    <tr><td>Admin</td><td><code>admin@mcxstock.com</code></td><td><code>admin123</code></td><td>Full access</td></tr>
+    <tr><td>Staff</td><td><code>staff@mcxstock.com</code></td><td><code>staff123</code></td><td>Restricted (no deletion/settings)</td></tr>
+  </table>
+
+  <div class="callout info"><strong>Role-based Access</strong>Admins and Managers can create, edit, and delete records. Staff can view and create orders but cannot delete or change system settings.</div>
+
+  <h3>🖥️ The Interface</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">📋</div><div class="t">Sidebar Navigation</div><div class="d">All modules grouped by category (Sales, Inventory, Purchasing, Finance, System)</div></div>
+    <div class="feat-card"><div class="ico">◀▶</div><div class="t">Collapsible Sidebar</div><div class="d">Click the arrow to expand or collapse the sidebar for more workspace</div></div>
+    <div class="feat-card"><div class="ico">🌙</div><div class="t">Dark Mode</div><div class="d">Toggle light/dark theme from the top-right sun/moon icon</div></div>
+    <div class="feat-card"><div class="ico">🔔</div><div class="t">Notifications</div><div class="d">Low stock, expiry, and system alerts appear in the bell icon</div></div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section id="s2">
+  <h2><span class="sec-num">2</span> Dashboard Overview</h2>
+  <p>The dashboard gives you a real-time snapshot of your business. It is the first page you see after logging in.</p>
+
+  <h3>💰 Financial KPIs (Top Row)</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">💸</div><div class="t">Revenue Today</div><div class="d">Total from fulfilled sales orders today</div></div>
+    <div class="feat-card"><div class="ico">📊</div><div class="t">Revenue This Month</div><div class="d">Total sales revenue month-to-date</div></div>
+    <div class="feat-card"><div class="ico">⏰</div><div class="t">Overdue AR</div><div class="d">Unpaid invoices past their due date</div></div>
+    <div class="feat-card"><div class="ico">📋</div><div class="t">Pending Orders</div><div class="d">Open purchase + sales orders</div></div>
+  </div>
+
+  <h3>📈 Inventory KPIs (Second Row)</h3>
+  <ul>
+    <li><strong>Total Products</strong> — number of active products</li>
+    <li><strong>Stock Value</strong> — total retail value of all inventory</li>
+    <li><strong>Cost Value</strong> — total cost value of all inventory</li>
+    <li><strong>Low Stock Items</strong> — products at or below reorder level</li>
+    <li><strong>Warehouses</strong> — active warehouse count</li>
+    <li><strong>Pending POs / SOs</strong> — outstanding purchase and sales orders</li>
+  </ul>
+
+  <div class="callout tip"><strong>Quick Tip</strong>Click the Overdue AR alert banner to jump straight to the Accounts page and collect payments.</div>
+
+  <h3>📊 Charts</h3>
+  <ul>
+    <li><strong>Stock Value by Category</strong> — pie chart showing inventory distribution</li>
+    <li><strong>Recent Movements</strong> — latest stock in/out transactions</li>
+  </ul>
+</section>
+
+<!-- SECTION 3 -->
+<section id="s3">
+  <h2><span class="sec-num">3</span> Initial System Setup</h2>
+  <p>Before recording transactions, set up your master data. We recommend doing these in order:</p>
+
+  <div class="flow">
+    <span class="flow-node">Warehouses</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Tax Rates</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Categories</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Products</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Suppliers</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Customers</span>
+  </div>
+
+  <h3>🏢 Warehouses</h3>
+  <p>Go to <strong>Inventory → Warehouses</strong>. Each warehouse has a name, code, and location. You must have at least one active warehouse before creating products or orders.</p>
+
+  <h3>🧾 Tax Rates</h3>
+  <p>Go to <strong>Finance → Tax Rates</strong>. Create tax rates (e.g., SST 8%) that will auto-apply to sales and purchase orders.</p>
+
+  <h3>🏭 Suppliers</h3>
+  <p>Go to <strong>Purchasing → Suppliers</strong>. Add supplier names, contact details, and payment terms. You need at least one supplier to create purchase orders.</p>
+
+  <h3>👥 Customers</h3>
+  <p>Go to <strong>Sales → Customers</strong>. Add customer contact info, credit limits, and payment terms. You need at least one customer to create sales orders or quotations.</p>
+</section>
+
+<!-- SECTION 4 -->
+<section id="s4">
+  <h2><span class="sec-num">4</span> Products & Categories</h2>
+  <p>Products are the heart of your inventory. Go to <strong>Inventory → Products</strong>.</p>
+
+  <h3>➕ Adding a Product</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Click <strong>+ Add Product</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Fill in the details:</p>
+    <ul>
+      <li><strong>Name</strong> — product name (e.g., "Wireless Mouse")</li>
+      <li><strong>SKU</strong> — your internal stock code (e.g., "WM-001")</li>
+      <li><strong>Barcode</strong> — EAN/UPC code (optional, used for barcode scanning)</li>
+      <li><strong>Category</strong> — group products (create categories from the Products page)</li>
+      <li><strong>Unit</strong> — base unit (pcs, kg, box, etc.)</li>
+      <li><strong>Cost Price</strong> — what you pay the supplier</li>
+      <li><strong>Selling Price</strong> — what you charge customers</li>
+      <li><strong>Reorder Level</strong> — minimum stock before reorder is suggested</li>
+      <li><strong>Expiry Date</strong> — for perishable items (optional)</li>
+      <li><strong>Tax Rate</strong> — SST rate applicable</li>
+    </ul>
+  </div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Click <strong>Save</strong>. The product now appears in the list with its current stock level.</p></div></div>
+
+  <div class="callout warn"><strong>Set Reorder Levels!</strong>The Reorder Level field powers the automatic low-stock alerts and Auto-PO feature. Leave it at 0 if you don't want alerts for that product.</div>
+
+  <h3>🏷️ Categories</h3>
+  <p>From the Products page, click <strong>+ Category</strong> to create product categories. These are used for filtering, reporting, and the category pie chart.</p>
+
+  <h3>🖨️ Barcode Labels</h3>
+  <p>Click the <strong>Print Label</strong> button on any product to print a barcode sticker for your shelves or products.</p>
+</section>
+
+<!-- SECTION 5 -->
+<section id="s5">
+  <h2><span class="sec-num">5</span> Purchase Workflow</h2>
+  <p>Purchasing brings stock into your warehouse. The flow is:</p>
+  <div class="flow">
+    <span class="flow-node">Create PO</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Receive via GRN</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Stock Updated</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Record Payment (AP)</span>
+  </div>
+
+  <h3>🛒 Creating a Purchase Order</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Purchasing → Purchase Orders</strong>. Click <strong>+ New PO</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select the <strong>Supplier</strong> and <strong>Warehouse</strong> where goods will be received.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Add line items: pick a <strong>Product</strong>, enter <strong>Quantity</strong> and <strong>Unit Cost</strong>. Click <strong>+ Add Item</strong> for more lines.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Select <strong>Tax Rate</strong> and <strong>Discount</strong> if applicable. The total (subtotal + tax − discount) calculates automatically.</p></div></div>
+  <div class="step"><div class="step-num">5</div><div class="step-body"><p>Click <strong>Save</strong>. The PO is created with status <span class="tag tag-blue">Pending</span>.</p></div></div>
+
+  <div class="callout info"><strong>Auto-PO from Low Stock</strong>On the <strong>Stock Levels</strong> page, click <strong>Create Auto-PO</strong> to instantly generate a purchase order for all products below their reorder level. The system suggests quantities and uses the product's cost price.</div>
+
+  <h3>📥 Receiving Goods (GRN — Goods Received Note)</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>When goods arrive, go to <strong>Sales → Delivery & GRN</strong> and open the <strong>GRN</strong> tab.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select the purchase order you are receiving. The line items appear.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Enter the quantity received for each line (can be partial). Enter <strong>Batch Number</strong> and <strong>Expiry Date</strong> if applicable.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Click <strong>Receive</strong>. Stock levels increase automatically, and the PO status updates to <span class="tag tag-green">Received</span>.</p></div></div>
+
+  <h3>💳 Paying Suppliers (Accounts Payable)</h3>
+  <p>Go to <strong>Finance → AR &amp; AP</strong>, open the <strong>Accounts Payable</strong> tab. Each received PO creates a bill. Record payments against each bill to track outstanding amounts.</p>
+</section>
+
+<!-- SECTION 6 -->
+<section id="s6">
+  <h2><span class="sec-num">6</span> Sales Workflow</h2>
+  <p>Selling takes stock out of your warehouse. The flow is:</p>
+  <div class="flow">
+    <span class="flow-node">Quotation</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Sales Order</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Reserve Stock</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Delivery Note</span><span class="flow-arrow">→</span>
+    <span class="flow-node">Invoice & Payment (AR)</span>
+  </div>
+
+  <h3>📝 Quotations</h3>
+  <p>Go to <strong>Sales → Quotations</strong>. Create a price quote for a customer. Quotations can be converted directly into a sales order with one click.</p>
+
+  <h3>💰 Sales Orders</h3>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Go to <strong>Sales → Sales Orders</strong>. Click <strong>+ New Sales Order</strong>.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Select <strong>Customer</strong> and <strong>Warehouse</strong>.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Add products, quantities, and unit prices. Tax and discount calculate automatically.</p></div></div>
+  <div class="step"><div class="step-num">4</div><div class="step-body"><p>Set <strong>Payment Terms</strong> and <strong>Due Date</strong>. Click <strong>Save</strong>.</p></div></div>
+
+  <h3>🔒 Reserving Stock</h3>
+  <p>On a sales order, click <strong>Reserve</strong> to lock stock for that order. Reserved stock cannot be used by other orders. Click <strong>Fulfill</strong> to release stock and mark the order as delivered.</p>
+
+  <h3>🚚 Delivery Notes</h3>
+  <p>Go to <strong>Sales → Delivery &amp; GRN</strong>, open the <strong>Delivery Notes</strong> tab. Create a delivery note from a fulfilled sales order to document goods leaving the warehouse. Click <strong>Print</strong> for a delivery receipt.</p>
+
+  <h3>🧾 Invoices & Payment (Accounts Receivable)</h3>
+  <p>Go to <strong>Finance → AR &amp; AP</strong>, <strong>Accounts Receivable</strong> tab. Each fulfilled sales order creates an invoice. Record customer payments. Overdue invoices are flagged on the dashboard.</p>
+
+  <div class="callout tip"><strong>Print Documents</strong>Use the <strong>Print</strong> button on any sales order, quotation, or PO to generate a professional PDF-ready document.</div>
+</section>
+
+<!-- SECTION 7 -->
+<section id="s7">
+  <h2><span class="sec-num">7</span> Stock Management</h2>
+
+  <h3>📊 Stock Levels</h3>
+  <p>Go to <strong>Inventory → Stock Levels</strong>. This shows live quantity of every product per warehouse.</p>
+  <ul>
+    <li><strong>Adjust</strong> — manually increase or decrease stock (for damages, write-offs, or corrections)</li>
+    <li><strong>Transfer</strong> — move stock between warehouses</li>
+    <li><strong>Create Auto-PO</strong> — generate a purchase order for all low-stock items in one click</li>
+  </ul>
+
+  <div class="callout info"><strong>Reorder Suggestions Table</strong>At the top of the Stock Levels page, a highlighted table lists every product below its reorder level, showing the suggested reorder quantity and estimated cost. Use this to decide what to reorder.</div>
+
+  <h3>🔄 Movements</h3>
+  <p>Go to <strong>Inventory → Movements</strong>. This is the audit trail of every stock change (in, out, transfer, adjustment) with timestamps and the user who made the change.</p>
+
+  <h3>✅ Stocktakes</h3>
+  <p>Go to <strong>Inventory → Stocktakes</strong>. Use stocktakes for periodic physical counting:</p>
+  <div class="step"><div class="step-num">1</div><div class="step-body"><p>Create a new stocktake for a warehouse.</p></div></div>
+  <div class="step"><div class="step-num">2</div><div class="step-body"><p>Enter the counted quantity for each product.</p></div></div>
+  <div class="step"><div class="step-num">3</div><div class="step-body"><p>Approve the stocktake — the system automatically adjusts stock to match the counted quantities and records variances.</p></div></div>
+
+  <h3>📷 Barcode Scan</h3>
+  <p>Go to <strong>Inventory → Barcode Scan</strong>. Use a barcode scanner (or type the barcode) to quickly look up products, check stock, and find pricing — ideal for warehouse floor use.</p>
+</section>
+
+<!-- SECTION 8 -->
+<section id="s8">
+  <h2><span class="sec-num">8</span> Batches, Expiry & FIFO</h2>
+  <p>Go to <strong>Inventory → Batches & Serials</strong>.</p>
+
+  <h3>➕ Adding a Batch</h3>
+  <p>Each batch tracks a specific production lot with its quantity, warehouse, batch number, serial number (optional), and expiry date. Batches are typically created automatically when receiving goods via GRN, but you can add them manually too.</p>
+
+  <h3>⚠️ Expiry Alert Summary</h3>
+  <p>At the top of the Batches page, four cards show:</p>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">🔴</div><div class="t">Expired</div><div class="d">Batches past expiry date</div></div>
+    <div class="feat-card"><div class="ico">🟠</div><div class="t">≤ 30 Days</div><div class="d">Expiring within 30 days</div></div>
+    <div class="feat-card"><div class="ico">🟡</div><div class="t">31–90 Days</div><div class="d">Expiring within 90 days</div></div>
+    <div class="feat-card"><div class="ico">🟢</div><div class="t">Healthy</div><div class="d">More than 90 days left</div></div>
+  </div>
+
+  <h3>🔄 FIFO Issue Suggestions</h3>
+  <p>The system automatically recommends which batch to issue first (earliest expiry date). The FIFO table shows:</p>
+  <ul>
+    <li><strong>Product</strong> — which product needs attention</li>
+    <li><strong>Batch to Use First</strong> — the batch number with the earliest expiry</li>
+    <li><strong>Expiry Date</strong> — with days remaining</li>
+    <li><strong>Priority</strong> — <span class="tag tag-red">URGENT</span> (expired), <span class="tag tag-amber">HIGH</span> (≤30 days), or <span class="tag tag-blue">MEDIUM</span> (31–90 days)</li>
+  </ul>
+
+  <div class="callout tip"><strong>Save Money with FIFO</strong>Always issue the batch suggested by the FIFO table first. This minimizes expiry write-offs and directly saves the business money.</div>
+</section>
+
+<!-- SECTION 9 -->
+<section id="s9">
+  <h2><span class="sec-num">9</span> Finance (AR/AP & SST)</h2>
+
+  <h3>💳 Accounts Receivable & Payable</h3>
+  <p>Go to <strong>Finance → AR &amp; AP</strong>.</p>
+  <table>
+    <tr><th>Tab</th><th>Purpose</th></tr>
+    <tr><td>Accounts Receivable</td><td>Track money owed by customers. Record payments against invoices. See overdue balances.</td></tr>
+    <tr><td>Accounts Payable</td><td>Track money owed to suppliers. Record payments against bills. Manage cash outflow.</td></tr>
+  </table>
+
+  <h3>🧮 SST Reporting</h3>
+  <p>Go to <strong>Reports</strong> and scroll to the <strong>SST Summary</strong> section. The system auto-calculates:</p>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">📤</div><div class="t">Output Tax</div><div class="d">SST collected from sales (fulfilled SOs)</div></div>
+    <div class="feat-card"><div class="ico">📥</div><div class="t">Input Tax</div><div class="d">SST paid on purchases (received POs)</div></div>
+    <div class="feat-card"><div class="ico">⚖️</div><div class="t">Net SST Payable</div><div class="d">Output − Input (what you owe the tax authority)</div></div>
+  </div>
+  <p>A monthly breakdown table shows the last 6 months of output, input, and net SST — perfect for your tax filing.</p>
+</section>
+
+<!-- SECTION 10 -->
+<section id="s10">
+  <h2><span class="sec-num">10</span> Reports & Analytics</h2>
+  <p>Go to <strong>Overview → Reports</strong>. All reports support a date range filter.</p>
+
+  <h3>📊 Available Reports</h3>
+  <div class="features-grid">
+    <div class="feat-card"><div class="ico">💵</div><div class="t">Revenue & Profit</div><div class="d">Total sales, cost, and gross profit</div></div>
+    <div class="feat-card"><div class="ico">📉</div><div class="t">Sales Trend</div><div class="d">Line chart of sales over time</div></div>
+    <div class="feat-card"><div class="ico">🥧</div><div class="t">Category Pie</div><div class="d">Sales distribution by category</div></div>
+    <div class="feat-card"><div class="ico">🏆</div><div class="t">Top Products</div><div class="d">Best-selling products bar chart</div></div>
+    <div class="feat-card"><div class="ico">🐢</div><div class="t">Slow-Moving Stock</div><div class="d">Products not sold in 90+ days</div></div>
+    <div class="feat-card"><div class="ico">💀</div><div class="t">Dead Stock</div><div class="d">Products with no sales in 180+ days</div></div>
+    <div class="feat-card"><div class="ico">🧾</div><div class="t">SST Summary</div><div class="d">Output/input tax and net payable</div></div>
+    <div class="feat-card"><div class="ico">📈</div><div class="t">Stock Value</div><div class="d">Total inventory value</div></div>
+  </div>
+
+  <div class="callout warn"><strong>Review Slow & Dead Stock</strong>Slow-moving and dead stock reports help you identify products to discount, return to suppliers, or stop reordering — freeing up cash and warehouse space.</div>
+</section>
+
+<!-- SECTION 11 -->
+<section id="s11">
+  <h2><span class="sec-num">11</span> System Tools</h2>
+
+  <h3>📥 Import / Export</h3>
+  <p>Go to <strong>System → Import / Export</strong>. Bulk-import products from CSV or export your data for backup.</p>
+
+  <h3>🔌 Integrations</h3>
+  <p>Go to <strong>System → Integrations</strong>. Connect external tools (e.g., accounting software, e-commerce platforms) to MCX Stock.</p>
+
+  <h3>📋 Audit Log</h3>
+  <p>Go to <strong>System → Audit Log</strong>. Every create, update, and delete action is recorded with the user, timestamp, and what changed — for full traceability.</p>
+
+  <h3>⚙️ Settings</h3>
+  <p>Go to <strong>System → Settings</strong>. Configure company name, currency, default tax rate, and other global preferences.</p>
+</section>
+
+<!-- SECTION 12 -->
+<section id="s12">
+  <h2><span class="sec-num">12</span> Tips & Best Practices</h2>
+
+  <div class="callout tip"><strong>1. Set Up Master Data First</strong>Always create warehouses, tax rates, and at least one supplier and customer before recording transactions.</div>
+
+  <div class="callout tip"><strong>2. Use Reorder Levels</strong>Set a realistic reorder level on every product. The Auto-PO feature will then automatically suggest what to buy and how much — preventing stockouts.</div>
+
+  <div class="callout tip"><strong>3. Follow FIFO for Expiry</strong>Always issue the batch recommended by the FIFO Issue Suggestions table first to minimize expiry losses.</div>
+
+  <div class="callout tip"><strong>4. Record Payments Promptly</strong>Record customer and supplier payments as soon as they happen so your AR/AP dashboard stays accurate and overdue alerts are meaningful.</div>
+
+  <div class="callout tip"><strong>5. Do Regular Stocktakes</strong>Run stocktakes monthly to catch variances early. The system auto-adjusts stock and logs all differences.</div>
+
+  <div class="callout tip"><strong>6. Use the Reports Weekly</strong>Check the slow-moving and dead stock reports weekly to take action on stagnant inventory before it costs you money.</div>
+
+  <h3>🚀 Common Day-in-the-Life Workflow</h3>
+  <ol>
+    <li>Check the <strong>Dashboard</strong> for overdue AR and low-stock alerts.</li>
+    <li>Review <strong>Reorder Suggestions</strong> on the Stock Levels page → click <strong>Create Auto-PO</strong>.</li>
+    <li>Process any new <strong>Sales Orders</strong> → reserve stock → create delivery notes.</li>
+    <li>Record incoming goods via <strong>GRN</strong> when deliveries arrive.</li>
+    <li>Record payments in <strong>AR &amp; AP</strong>.</li>
+    <li>Check <strong>FIFO suggestions</strong> and <strong>expiry alerts</strong> on the Batches page.</li>
+  </ol>
+</section>
+
+<div class="footer">
+  <p>MCX Stock — Inventory Management System | User Tutorial v1.0</p>
+  <p>For support, contact your system administrator.</p>
+</div>
+
+</div>
+</body>
+</html>

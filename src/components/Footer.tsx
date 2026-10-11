@@ -48,7 +48,7 @@ export default function Footer() {
                   key={s}
                   href="#"
                   aria-label={s}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-slate-300 transition hover:bg-brand-orange hover:text-white"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-slate-300 transition-all duration-300 hover:bg-brand-orange hover:text-white hover:scale-110 hover:-translate-y-1"
                 >
                   <SocialIcon name={s} />
                 </a>
@@ -66,7 +66,7 @@ export default function Footer() {
                   <li key={l.label}>
                     <a
                       href={l.href}
-                      className="text-sm text-slate-400 transition hover:text-brand-orange"
+                      className="link-underline inline-block text-sm text-slate-400 transition-colors duration-200 hover:text-brand-orange"
                     >
                       {l.label}
                     </a>

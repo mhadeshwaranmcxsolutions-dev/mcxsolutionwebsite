@@ -1,3 +1,7 @@
+import Reveal from "./Reveal";
+import TiltCard from "./TiltCard";
+import AnimatedTextReveal from "./AnimatedTextReveal";
+
 const services = [
   {
     title: "Custom Software Development",
@@ -35,32 +39,32 @@ export default function Services() {
   return (
     <section id="services" className="py-24 bg-slate-50">
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+        <Reveal className="mx-auto max-w-2xl text-center">
           <span className="text-sm font-bold uppercase tracking-wider text-brand-orange">
             Our Services
           </span>
           <h2 className="mt-3 text-3xl font-extrabold text-brand-navy sm:text-4xl text-balance">
-            Everything you need to run smarter
+            <AnimatedTextReveal text="Everything you need to run smarter" />
           </h2>
           <p className="mt-4 text-slate-600">
             From software development to ongoing support, we cover the full
             journey so you can focus on growing your business.
           </p>
-        </div>
+        </Reveal>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <div
-              key={s.title}
-              className="group rounded-2xl border border-slate-100 bg-white p-7 shadow-card transition hover:-translate-y-1 hover:shadow-premium hover:border-brand-orange/30 animate-fade-up"
-              style={{ animationDelay: `${i * 70}ms` }}
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange transition group-hover:bg-brand-orange group-hover:text-white">
-                <ServiceIcon name={s.icon} />
-              </div>
-              <h3 className="mt-5 text-lg font-bold text-brand-navy">{s.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-500">{s.desc}</p>
-            </div>
+            <Reveal key={s.title} delay={i * 80} variant="up">
+              <TiltCard max={5} scale={1.015} className="h-full">
+                <div className="card-glow group h-full rounded-2xl border border-slate-100 bg-white p-7 shadow-card transition-all duration-300 hover:shadow-premium">
+                  <div className="icon-bounce flex h-12 w-12 items-center justify-center rounded-xl bg-brand-orange/10 text-brand-orange transition-all duration-300 group-hover:bg-brand-orange group-hover:text-white group-hover:scale-110 group-hover:rotate-6">
+                    <ServiceIcon name={s.icon} />
+                  </div>
+                  <h3 className="mt-5 text-lg font-bold text-brand-navy">{s.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-500">{s.desc}</p>
+                </div>
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </div>

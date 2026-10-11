@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import AnimatedCounter from "@/components/AnimatedCounter";
+import Reveal from "@/components/Reveal";
 
 interface Client {
   id: string;
@@ -227,10 +229,18 @@ export default function ClientsPage() {
 
         {/* Stats */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard label="Total Clients" value={String(stats.total)} icon="👥" tint="bg-blue-50 text-blue-600" />
-          <StatCard label="Active Clients" value={String(stats.active.length)} icon="✅" tint="bg-emerald-50 text-emerald-600" />
-          <StatCard label="Monthly MRR" value={fmt(stats.mrr)} icon="💵" tint="bg-orange-50 text-orange-600" sub="Recurring monthly" />
-          <StatCard label="Annual ARR" value={fmt(stats.arr)} icon="📈" tint="bg-purple-50 text-purple-600" sub="MRR × 12" />
+          <Reveal delay={0} variant="up">
+            <StatCard label="Total Clients" value={String(stats.total)} icon="👥" tint="bg-blue-50 text-blue-600" />
+          </Reveal>
+          <Reveal delay={80} variant="up">
+            <StatCard label="Active Clients" value={String(stats.active.length)} icon="✅" tint="bg-emerald-50 text-emerald-600" />
+          </Reveal>
+          <Reveal delay={160} variant="up">
+            <StatCard label="Monthly MRR" value={fmt(stats.mrr)} icon="💵" tint="bg-orange-50 text-orange-600" sub="Recurring monthly" />
+          </Reveal>
+          <Reveal delay={240} variant="up">
+            <StatCard label="Annual ARR" value={fmt(stats.arr)} icon="📈" tint="bg-purple-50 text-purple-600" sub="MRR × 12" />
+          </Reveal>
         </div>
 
         {/* Upcoming renewals */}
@@ -301,8 +311,15 @@ export default function ClientsPage() {
                     </td>
                   </tr>
                 ) : (
-                  filtered.map((c) => (
-                    <tr key={c.id} className="border-b border-slate-50 transition-colors hover:bg-slate-50/60">
+                  filtered.map((c, i) => (
+                    <tr
+                      key={c.id}
+                      className="border-b border-slate-50 transition-all duration-300 hover:bg-slate-50/60 hover:shadow-sm"
+                      style={{
+                        animation: `fadeUp 0.4s ease-out both`,
+                        animationDelay: `${Math.min(i * 40, 400)}ms`,
+                      }}
+                    >
                       <td className="px-5 py-4">
                         <div className="font-semibold text-brand-navy">{c.name}</div>
                         <div className="text-xs text-slate-400">{c.contact} · {c.phone}</div>
@@ -351,11 +368,12 @@ export default function ClientsPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowModal(false)}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 animate-fade-in" onClick={() => setShowModal(false)}>
           <form
             onSubmit={save}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl"
+            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-6 shadow-2xl animate-fade-up"
+            style={{ animationDuration: "0.35s" }}
           >
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-xl font-bold text-brand-navy">
@@ -440,12 +458,12 @@ export default function ClientsPage() {
 
 function StatCard({ label, value, icon, tint, sub }: { label: string; value: string; icon: string; tint: string; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-card">
+    <div className="lift-card card-glow group rounded-2xl border border-slate-100 bg-white p-5 shadow-card transition-all duration-300 hover:shadow-premium">
       <div className="flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">{label}</span>
-        <span className={`flex h-9 w-9 items-center justify-center rounded-lg text-lg ${tint}`}>{icon}</span>
+        <span className={`icon-bounce flex h-9 w-9 items-center justify-center rounded-lg text-lg ${tint}`}>{icon}</span>
       </div>
-      <div className="mt-2 text-2xl font-extrabold text-brand-navy">{value}</div>
+      <div className="mt-2 text-2xl font-extrabold text-brand-navy transition-transform duration-300 group-hover:scale-105">{value}</div>
       {sub && <div className="text-xs text-slate-400">{sub}</div>}
     </div>
   );

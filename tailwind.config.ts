@@ -27,9 +27,16 @@ const config: Config = {
         "fade-up": "fadeUp 0.7s ease-out both",
         "fade-in": "fadeIn 0.8s ease-out both",
         float: "float 6s ease-in-out infinite",
+        "float-slow": "float 9s ease-in-out infinite",
         "spin-slow": "spin 18s linear infinite",
         "pulse-soft": "pulseSoft 4s ease-in-out infinite",
         marquee: "marquee 28s linear infinite",
+        "marquee-slow": "marquee 45s linear infinite",
+        "gradient-shift": "gradientShift 8s ease infinite",
+        "shine": "shine 1.5s ease-in-out infinite",
+        "bounce-soft": "bounceSoft 2.5s ease-in-out infinite",
+        "tilt": "tilt 8s ease-in-out infinite",
+        "orbit": "orbit 20s linear infinite",
       },
       keyframes: {
         fadeUp: {
@@ -51,6 +58,26 @@ const config: Config = {
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
+        },
+        gradientShift: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        shine: {
+          "0%": { transform: "translateX(-120%) skewX(-20deg)" },
+          "100%": { transform: "translateX(220%) skewX(-20deg)" },
+        },
+        bounceSoft: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        tilt: {
+          "0%, 100%": { transform: "rotate(-1.5deg)" },
+          "50%": { transform: "rotate(1.5deg)" },
+        },
+        orbit: {
+          "0%": { transform: "rotate(0deg) translateX(40px) rotate(0deg)" },
+          "100%": { transform: "rotate(360deg) translateX(40px) rotate(-360deg)" },
         },
       },
     },
