@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import Logo from "./Logo";
 
 const links = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Our Solutions", href: "#solutions" },
-  { label: "Services", href: "#services" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/#about" },
+  { label: "Our Solutions", href: "/#solutions" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("#home");
@@ -31,7 +34,9 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const ids = links.map((l) => l.href.slice(1));
+    const ids = links
+      .map((l) => (l.href.includes("#") ? l.href.split("#")[1] : null))
+      .filter(Boolean) as string[];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -89,22 +94,39 @@ export default function Navbar() {
 
         <ul className="hidden items-center gap-1 lg:flex">
           {links.map((l) => {
-            const isActive = active === l.href;
+            const isRoute = !l.href.includes("#");
+            const isActive = isRoute ? pathname === l.href : active === l.href.replace(/^\//, "");
             return (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                    isActive ? "text-brand-orange" : linkColor
-                  }`}
-                >
-                  {l.label}
-                  <span
-                    className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-brand-orange transition-all duration-300 ${
-                      isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+                {isRoute ? (
+                  <Link
+                    href={l.href}
+                    className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                      isActive ? "text-brand-orange" : linkColor
                     }`}
-                  />
-                </a>
+                  >
+                    {l.label}
+                    <span
+                      className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-brand-orange transition-all duration-300 ${
+                        isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+                      }`}
+                    />
+                  </Link>
+                ) : (
+                  <a
+                    href={l.href}
+                    className={`relative px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                      isActive ? "text-brand-orange" : linkColor
+                    }`}
+                  >
+                    {l.label}
+                    <span
+                      className={`absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-brand-orange transition-all duration-300 ${
+                        isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0"
+                      }`}
+                    />
+                  </a>
+                )}
               </li>
             );
           })}
@@ -112,7 +134,7 @@ export default function Navbar() {
 
         <div className="hidden lg:block">
           <a
-            href="#contact"
+            href="/#contact"
             className="group inline-flex items-center gap-2 rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-card transition-all duration-300 hover:scale-105 hover:bg-brand-orangeDark hover:shadow-glow active:scale-95"
           >
             <svg
@@ -165,28 +187,50 @@ export default function Navbar() {
       >
         <div className="border-t border-slate-200/60 bg-white/95 backdrop-blur-xl">
           <ul className="flex flex-col gap-1 px-5 py-4">
-            {links.map((l, i) => (
-              <li key={l.href}>
-                <a
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className={`flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
-                    active === l.href
-                      ? "bg-orange-50 text-brand-orange"
-                      : "text-brand-navy/80 hover:bg-slate-50 hover:text-brand-navy"
-                  }`}
-                  style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
-                >
-                  {l.label}
-                  {active === l.href && (
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
+            {links.map((l, i) => {
+              const isRoute = !l.href.includes("#");
+              const isActive = isRoute ? pathname === l.href : active === l.href.replace(/^\//, "");
+              return (
+                <li key={l.href}>
+                  {isRoute ? (
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? "bg-orange-50 text-brand-orange"
+                          : "text-brand-navy/80 hover:bg-slate-50 hover:text-brand-navy"
+                      }`}
+                      style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
+                    >
+                      {l.label}
+                      {isActive && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
+                      )}
+                    </Link>
+                  ) : (
+                    <a
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? "bg-orange-50 text-brand-orange"
+                          : "text-brand-navy/80 hover:bg-slate-50 hover:text-brand-navy"
+                      }`}
+                      style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
+                    >
+                      {l.label}
+                      {isActive && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-brand-orange" />
+                      )}
+                    </a>
                   )}
-                </a>
-              </li>
-            ))}
+                </li>
+              );
+            })}
             <li className="mt-3">
               <a
-                href="#contact"
+                href="/#contact"
                 onClick={() => setOpen(false)}
                 className="block rounded-full bg-brand-orange px-6 py-3.5 text-center text-sm font-semibold text-white shadow-card transition-all hover:bg-brand-orangeDark"
               >
